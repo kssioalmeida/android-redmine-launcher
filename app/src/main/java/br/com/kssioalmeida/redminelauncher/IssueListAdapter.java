@@ -37,7 +37,7 @@ public class IssueListAdapter extends RecyclerView.Adapter<IssueListAdapter.View
 
         holder.subject.setText(issue.getSubject());
         holder.id.setText("#" + issue.getId());
-        holder.status.setText("Ainda não");
+        holder.status.setText(issue.getStatus().getName());
         holder.updatedOn.setText(issue.getStartDate());
     }
 

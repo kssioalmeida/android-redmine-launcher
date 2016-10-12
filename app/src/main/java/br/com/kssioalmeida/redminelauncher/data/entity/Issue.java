@@ -10,6 +10,8 @@ public class Issue {
 
     private Project project;
 
+    private Status status;
+
     private String subject;
 
     private String description;
@@ -54,5 +56,13 @@ public class Issue {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
