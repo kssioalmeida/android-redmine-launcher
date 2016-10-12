@@ -1,19 +1,38 @@
 package br.com.kssioalmeida.redminelauncher;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class IssueListActivity extends AppCompatActivity implements IssueListContract.View {
+public class IssueListActivity extends AppCompatActivity implements IssueListContract.View, View.OnClickListener {
 
     @BindView(R.id.recyclerview)
     RecyclerView issueList;
+
+    @BindView(R.id.listIssueContainer)
+    LinearLayout listContainer;
+
+    @BindView(R.id.waitingIssueLayout)
+    LinearLayout waitingLayout;
+
+    @BindView(R.id.errorIssueLayout)
+    LinearLayout errorIssueLayout;
+
+    @BindView(R.id.buttonTryAgain)
+    Button btnTryAgain;
+
+    @BindView(R.id.buttonMoreDetails)
+    Button btnMoreDetails;
 
     private IssueListAdapter mAdapter;
     private IssueListPresenter presenter;
@@ -26,6 +45,9 @@ public class IssueListActivity extends AppCompatActivity implements IssueListCon
 
         presenter = new IssueListPresenter();
         presenter.setView(this);
+
+        btnTryAgain.setOnClickListener(this);
+        btnMoreDetails.setOnClickListener(this);
     }
 
     @Override
@@ -35,7 +57,7 @@ public class IssueListActivity extends AppCompatActivity implements IssueListCon
     }
 
     @Override
-    public void setupIssueList(List list){
+    public void setupIssueList(List list) {
         LinearLayoutManager layoutManger = new LinearLayoutManager(this);
         mAdapter = new IssueListAdapter(list);
 
@@ -45,21 +67,49 @@ public class IssueListActivity extends AppCompatActivity implements IssueListCon
 
     @Override
     public void showWaitingLayout() {
-
+        listContainer.setVisibility(View.GONE);
+        waitingLayout.setVisibility(View.VISIBLE);
+        errorIssueLayout.setVisibility(View.GONE);
     }
 
     @Override
     public void showErrorLayout() {
-
+        listContainer.setVisibility(View.GONE);
+        waitingLayout.setVisibility(View.GONE);
+        errorIssueLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showSuccessLayout() {
+        listContainer.setVisibility(View.VISIBLE);
+        waitingLayout.setVisibility(View.GONE);
+        errorIssueLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void updateList(List list) {
 
     }
 
     @Override
-    public void updateList(List list){
+    public void showAlertDialog(String title, String message) {
+        new AlertDialog.Builder(IssueListActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", null)
+                .create().show();
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonTryAgain:
+                presenter.loadIssues();
+                break;
+            case R.id.buttonMoreDetails:
+                presenter.onErrorMoreDetails();
+                break;
+        }
     }
 }

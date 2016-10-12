@@ -14,6 +14,10 @@ public class IssueListPresenter implements IssueListContract.Presenter {
 
     private IssueListContract.View view;
 
+    private String lastError = "";
+
+    private Subscription subscription;
+
     @Override
     public void setView(IssueListContract.View view) {
         this.view = view;
@@ -23,14 +27,20 @@ public class IssueListPresenter implements IssueListContract.Presenter {
     public void loadIssues() {
         view.showWaitingLayout();
 
-        Subscription subscription = IssueServiceImpl.create().getIssues(1)
+        if (subscription != null)
+            subscription.unsubscribe();
+
+        subscription = IssueServiceImpl.create().getIssues(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(throwable -> Logger.debug(throwable.toString()))
+                .doOnError(throwable -> {
+                    Logger.debug(throwable.getMessage());
+
+                    lastError = throwable.getMessage();
+                    view.showErrorLayout();
+                })
                 .subscribe(
                         issues -> {
-                            Logger.debug("Total: " + issues.getList().size());
-
                             view.setupIssueList(issues.getList());
                             view.showSuccessLayout();
                         },
@@ -41,5 +51,11 @@ public class IssueListPresenter implements IssueListContract.Presenter {
     @Override
     public void updateList() {
 
+    }
+
+    @Override
+    public void onErrorMoreDetails() {
+        Logger.debug("onErrorMoreDetails");
+        view.showAlertDialog("Error", lastError);
     }
 }

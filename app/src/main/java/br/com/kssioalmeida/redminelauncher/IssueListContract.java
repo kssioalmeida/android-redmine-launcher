@@ -19,6 +19,8 @@ public interface IssueListContract {
         void showSuccessLayout();
 
         void updateList(List list);
+
+        void showAlertDialog(String title, String message);
     }
 
 
@@ -30,6 +32,7 @@ public interface IssueListContract {
 
         void updateList();
 
+        void onErrorMoreDetails();
     }
 
 }

@@ -8,6 +8,8 @@ public class Issue {
 
     private int id;
 
+    private Project project;
+
     private String subject;
 
     private String description;
@@ -44,5 +46,13 @@ public class Issue {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
