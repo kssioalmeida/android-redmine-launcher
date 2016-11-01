@@ -1,4 +1,4 @@
-package br.com.kssioalmeida.redminelauncher;
+package br.com.kssioalmeida.redminelauncher.presentation.issue;
 
 import br.com.kssioalmeida.redminelauncher.data.service.remote.issue.IssueServiceImpl;
 import br.com.kssioalmeida.redminelauncher.helper.Logger;

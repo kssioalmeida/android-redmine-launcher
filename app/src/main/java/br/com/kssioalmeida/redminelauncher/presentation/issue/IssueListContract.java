@@ -1,4 +1,4 @@
-package br.com.kssioalmeida.redminelauncher;
+package br.com.kssioalmeida.redminelauncher.presentation.issue;
 
 import java.util.List;
 

@@ -1,8 +1,7 @@
-package br.com.kssioalmeida.redminelauncher;
+package br.com.kssioalmeida.redminelauncher.presentation.issue;
 
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,10 +10,14 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import br.com.kssioalmeida.redminelauncher.R;
+import br.com.kssioalmeida.redminelauncher.presentation.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class IssueListActivity extends AppCompatActivity implements IssueListContract.View, View.OnClickListener {
+public class IssueListActivity extends BaseActivity implements IssueListContract.View, View.OnClickListener {
 
     @BindView(R.id.recyclerview)
     RecyclerView issueList;
@@ -35,15 +38,17 @@ public class IssueListActivity extends AppCompatActivity implements IssueListCon
     Button btnMoreDetails;
 
     private IssueListAdapter mAdapter;
-    private IssueListPresenter presenter;
+
+    @Inject
+    IssueListContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issues);
         ButterKnife.bind(this);
+        getUIComponent().inject(this);
 
-        presenter = new IssueListPresenter();
         presenter.setView(this);
 
         btnTryAgain.setOnClickListener(this);

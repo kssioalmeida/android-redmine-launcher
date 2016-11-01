@@ -1,4 +1,4 @@
-package br.com.kssioalmeida.redminelauncher;
+package br.com.kssioalmeida.redminelauncher.presentation.issue;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.kssioalmeida.redminelauncher.R;
 import br.com.kssioalmeida.redminelauncher.data.entity.Issue;
 import butterknife.BindView;
 import butterknife.ButterKnife;
